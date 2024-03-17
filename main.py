@@ -42,8 +42,10 @@ for day in days:
     take_profit = 0
     save_close_price = 0
     i = 1
+    orders = []
     for date in dates:
         open_prise = date[2]
+        orders.append(date)
         save_close_price = close_prise
         close_prise = date[3]
         stop_loss = int(open_prise) * loss
@@ -65,6 +67,6 @@ for day in days:
             deal.append([day[0], start_lot, end_lot, start_lot_price, end_lot_price])
 
     for i in deal:
-        file.write(f"{i[0]} , {i[1]} ,  {i[2]} , {i[3]} , {i[4]} \n")
+        file.write(f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}\n")
 
 file.close()
