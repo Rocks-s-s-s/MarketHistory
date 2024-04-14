@@ -11,3 +11,13 @@ def insert_to_SQL(date,start_lot,end_lot,cnx):
     cursor.execute(s)
     cnx.commit()
     cursor.close()
+
+def get_all_share_id(cnx):
+    query = ("select distinct  share_id "
+            "FROM market.shares "
+            "order by share_id")
+    cursor = cnx.cursor()
+    cursor.execute(query)
+    id = cursor.fetchall()
+    cursor.close()
+    return id
