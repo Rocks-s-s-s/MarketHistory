@@ -13,9 +13,13 @@ def insert_to_SQL(date,start_lot,end_lot,cnx):
     cursor.close()
 
 def get_all_share_id(cnx):
-    query = ("select distinct  share_id "
-            "FROM market.shares "
-            "order by share_id")
+    query = ("select s.share_id "
+    "from market.shares s inner join market.load_info li on s.share_id = li.share_id " 
+    "where li.timestamp_load < current_date-1 "
+    "and s.is_history ='X'")
+    #query = ("select distinct  share_id "
+    #        "FROM market.shares "
+    #        "order by share_id")
     cursor = cnx.cursor()
     cursor.execute(query)
     id = cursor.fetchall()

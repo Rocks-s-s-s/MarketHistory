@@ -1,8 +1,11 @@
 import psycopg2
 from db_tools import insert_to_SQL
-from meny import loss,profit
+from meny import loss, profit, act, st, nt
 from meny import cnx
 file = open("All_Deal.txt", "w")
+
+
+
 
 #loss = 0.99
 #profit = 1.01
