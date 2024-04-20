@@ -1,4 +1,4 @@
-def insert_to_SQL(date,start_lot,end_lot,cnx):
+def insert_to_db(date, start_lot, end_lot, cnx):
     template = ("INSERT INTO market.good_intervals"
              "(share_id, timestamp_begin, timestamp_ends)"
              "VALUES('SBER',to_timestamp('<date1> <time1>','yyyy-mm-dd hh24:mi:ss'),to_timestamp('<date2> <time2>','yyyy-mm-dd hh24:mi:ss'));")
