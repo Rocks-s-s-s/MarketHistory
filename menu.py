@@ -36,12 +36,11 @@ def find_interv(st, nt, act):
         cursor.execute(query, (day[0], act))
         dates = cursor.fetchall()
         cursor.close()
-        deal = []
+        deals = []
         start_lot = 0
         end_lot = 0
         start_lot_price = 0
         end_lot_price = 0
-        close_prise = 0
         in_progress = 0
         i = 1
         orders = []
@@ -60,15 +59,15 @@ def find_interv(st, nt, act):
                 end_lot = date[1]
                 end_lot_price = close_prise
                 if end_lot_price > start_lot_price:
-                    deal.append([day[0], start_lot, end_lot, start_lot_price, end_lot_price])
+                    deals.append([day[0], start_lot, end_lot, start_lot_price, end_lot_price])
                     insert_to_db(date[0], start_lot, end_lot, cnx)
             i += 1
             if in_progress == 1:
                 if end_lot_price > start_lot_price:
-                    deal.append([day[0], start_lot, end_lot, start_lot_price, end_lot_price])
+                    deals.append([day[0], start_lot, end_lot, start_lot_price, end_lot_price])
 
-            for i in deal:
-                file.write(f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}\n")
+            for deal in deals:
+                file.write(f"{deal[0]}, {deal[1]}, {deal[2]}, {deal[3]}, {deal[4]}\n")
 
     print("Finish find")
 
