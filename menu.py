@@ -60,7 +60,7 @@ def find_interv(st, nt, act):
                 end_lot_price = close_prise
                 if end_lot_price > start_lot_price:
                     deals.append([day[0], start_lot, end_lot, start_lot_price, end_lot_price])
-                    insert_to_db(date[0], start_lot, end_lot, cnx)
+                    #insert_to_db(date[0], start_lot, end_lot, cnx)
             i += 1
             if in_progress == 1:
                 if end_lot_price > start_lot_price:
