@@ -13,6 +13,8 @@ def find_interv(st, nt, act):
 
     cursor = cnx.cursor()
 
+    deals = set()
+
     # Считывание всех доступных дней для выбранного инструмента
     query = ("select distinct date(sr.timestamp_begin) "
              "from market.share_rates sr "
@@ -36,17 +38,13 @@ def find_interv(st, nt, act):
         cursor.execute(query, (day[0], act))
         dates = cursor.fetchall()
         cursor.close()
-        deals = []
         start_lot = 0
         end_lot = 0
         start_lot_price = 0
         end_lot_price = 0
         in_progress = 0
-        i = 1
-        orders = []
         for date in dates:
             open_prise = date[2]
-            orders.append(date)
             close_prise = date[3]
             stop_loss = int(open_prise) * loss
             take_profit = int(open_prise) * profit
@@ -59,15 +57,17 @@ def find_interv(st, nt, act):
                 end_lot = date[1]
                 end_lot_price = close_prise
                 if end_lot_price > start_lot_price:
-                    deals.append([day[0], start_lot, end_lot, start_lot_price, end_lot_price])
-                    #insert_to_db(date[0], start_lot, end_lot, cnx)
-            i += 1
+                    deals.add((day[0], start_lot, end_lot, start_lot_price, end_lot_price))
+                    insert_to_db(date[0], start_lot, end_lot, cnx)
             if in_progress == 1:
                 if end_lot_price > start_lot_price:
-                    deals.append([day[0], start_lot, end_lot, start_lot_price, end_lot_price])
+                    deals.add((day[0], start_lot, end_lot, start_lot_price, end_lot_price))
+                    insert_to_db(date[0], start_lot, end_lot, cnx)
 
-            for deal in deals:
-                file.write(f"{deal[0]}, {deal[1]}, {deal[2]}, {deal[3]}, {deal[4]}\n")
+    for deal in deals:
+        file.write(f"{deal[0]}, {deal[1]}, {deal[2]}, {deal[3]}, {deal[4]}\n")
+
+    file.close()
 
     print("Finish find")
 
